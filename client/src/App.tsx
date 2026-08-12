@@ -9,6 +9,7 @@ import Leads from "@/pages/Leads";
 import Outreach from "@/pages/Outreach";
 import ReplyContent from "@/pages/ReplyContent";
 import SafetyControls from "@/pages/SafetyControls";
+import SignIn from "@/pages/SignIn";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -21,6 +22,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/signin" component={SignIn} />
       <Route path="/app"><Protected><Dashboard /></Protected></Route>
       <Route path="/app/dashboard"><Protected><Dashboard /></Protected></Route>
       <Route path="/app/outreach"><Protected><Outreach /></Protected></Route>

@@ -125,5 +125,19 @@ export const contentDrafts = mysqlTable("contentDrafts", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+export const xAccounts = mysqlTable("xAccounts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  xUserId: varchar("xUserId", { length: 80 }).notNull().unique(),
+  username: varchar("username", { length: 100 }).notNull(),
+  displayName: varchar("displayName", { length: 160 }),
+  accessTokenCiphertext: text("accessTokenCiphertext").notNull(),
+  refreshTokenCiphertext: text("refreshTokenCiphertext"),
+  scopes: text("scopes").notNull(),
+  tokenExpiresAt: timestamp("tokenExpiresAt"),
+  connectedAt: timestamp("connectedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;

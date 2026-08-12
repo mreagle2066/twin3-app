@@ -17,3 +17,12 @@
 - [x] Add monitored-account tracking and an original-content composer to the Reply & Content Agent workspace.
 - [x] Strengthen live dashboard verification by surfacing newly created campaign records and run responsive QA across authenticated agent pages.
 - [x] Verify new campaign creation invalidates dashboard data and add focused automated coverage for dashboard aggregation behavior.
+- [x] Add X OAuth account storage with encrypted credential handling and a connected-account status model.
+- [x] Implement secure X OAuth authorization, callback, state validation, token refresh, revocation, and agent-permission checks.
+- [x] Add X sign-in to the authentication experience and an account-linking control in the protected workspace.
+- [x] Request and validate the X OAuth application credentials and redirect URI configuration required for live authorization.
+- [x] Add automated coverage for X account connection, authorization-state validation, and disconnected-agent safeguards.
+- [x] Route every X-dependent agent action through the active-X-account guard and test that disconnected users cannot run X actions.
+- [x] Add procedure-level tests proving disconnected users cannot schedule or launch campaigns and cannot verify X access.
+- [x] Audit X-triggering procedures versus local-only workspace procedures and document the guard boundary in the server code.
+- [x] Add procedure-level coverage proving a disconnected user cannot launch an active X campaign.

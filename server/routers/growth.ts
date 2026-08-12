@@ -3,6 +3,7 @@ import { z } from "zod";
 import { AGENT_MODES, INTENT_LABELS, OPPORTUNITY_TAGS } from "../agentConstants";
 import * as db from "../db";
 import { invokeLLM, listLLMModels } from "../_core/llm";
+import { disconnectXAccount, getActiveXAccessToken } from "../xOAuth";
 import { protectedProcedure, router } from "../_core/trpc";
 
 const agentMode = z.enum(AGENT_MODES);
@@ -18,6 +19,9 @@ async function preferredModel() {
 }
 
 export const growthRouter = router({
+  // X network boundary: only actions that verify an X identity or activate/schedule X activity
+  // require getActiveXAccessToken. Drafts, AI drafting, local lead research, knowledge, and
+  // safety configuration remain local-only until a user explicitly triggers an X action.
   dashboard: protectedProcedure.query(async ({ ctx }) => {
     try { return await db.getDashboard(ctx.user.id); } catch (error) { return dbError(error); }
   }),
@@ -26,7 +30,10 @@ export const growthRouter = router({
       try { return await db.listCampaigns(ctx.user.id); } catch (error) { return dbError(error); }
     }),
     create: protectedProcedure.input(z.object({ name: z.string().min(2).max(160), targetAudience: z.string().min(4).max(600), dailyLimit: z.number().int().min(1).max(500), status: z.enum(["draft", "scheduled", "active", "paused"]).default("draft") })).mutation(async ({ ctx, input }) => {
-      try { return await db.createCampaign(ctx.user.id, input); } catch (error) { return dbError(error); }
+      try {
+        if (input.status !== "draft") await getActiveXAccessToken(ctx.user.id);
+        return await db.createCampaign(ctx.user.id, input);
+      } catch (error) { return dbError(error); }
     }),
   }),
   leads: router({
@@ -92,6 +99,26 @@ export const growthRouter = router({
     }),
     save: protectedProcedure.input(z.object({ outreachDmsPerDay: z.number().int().min(1).max(500), repliesPerHour: z.number().int().min(1).max(100), postsPerDay: z.number().int().min(1).max(30), outreachMode: agentMode, conversationMode: agentMode, replyMode: agentMode, autoPauseThreshold: z.number().int().min(50).max(100) })).mutation(async ({ ctx, input }) => {
       try { return await db.saveSafetyControls(ctx.user.id, input); } catch (error) { return dbError(error); }
+    }),
+  }),
+  xAccount: router({
+    status: protectedProcedure.query(async ({ ctx }) => {
+      try {
+        const account = await db.getXAccount(ctx.user.id);
+        return account ? { connected: true as const, username: account.username, displayName: account.displayName, connectedAt: account.connectedAt, scopes: account.scopes } : { connected: false as const };
+      } catch (error) { return dbError(error); }
+    }),
+    disconnect: protectedProcedure.mutation(async ({ ctx }) => {
+      try { return await disconnectXAccount(ctx.user.id); } catch (error) { return dbError(error); }
+    }),
+    verifyAccess: protectedProcedure.mutation(async ({ ctx }) => {
+      try {
+        const accessToken = await getActiveXAccessToken(ctx.user.id);
+        const response = await fetch("https://api.x.com/2/users/me", { headers: { Authorization: `Bearer ${accessToken}` } });
+        if (!response.ok) throw new Error("X could not verify the connected account. Please reconnect it in Safety & Controls.");
+        const body = await response.json() as { data?: { username?: string } };
+        return { verified: true as const, username: body.data?.username ?? null };
+      } catch (error) { return dbError(error); }
     }),
   }),
   ai: router({

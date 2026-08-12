@@ -12,6 +12,7 @@ import {
   replyDrafts,
   safetyControls,
   users,
+  xAccounts,
 } from "../drizzle/schema";
 import { clampLeadScore } from "./agentConstants";
 import { buildDashboardMetrics } from "./dashboardMetrics";
@@ -188,5 +189,35 @@ export async function getSafetyControls(userId: number) {
 export async function saveSafetyControls(userId: number, input: { outreachDmsPerDay: number; repliesPerHour: number; postsPerDay: number; outreachMode: "Manual" | "Semi-autonomous" | "Autonomous"; conversationMode: "Manual" | "Semi-autonomous" | "Autonomous"; replyMode: "Manual" | "Semi-autonomous" | "Autonomous"; autoPauseThreshold: number }) {
   const db = mustDb(await getDb());
   await db.insert(safetyControls).values({ userId, ...input }).onDuplicateKeyUpdate({ set: input });
+  return { success: true as const };
+}
+
+export async function getUserById(userId: number) {
+  const db = mustDb(await getDb());
+  const result = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  return result[0];
+}
+
+export async function getXAccount(userId: number) {
+  const db = mustDb(await getDb());
+  const result = await db.select().from(xAccounts).where(eq(xAccounts.userId, userId)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function getXAccountByXUserId(xUserId: string) {
+  const db = mustDb(await getDb());
+  const result = await db.select().from(xAccounts).where(eq(xAccounts.xUserId, xUserId)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function saveXAccount(userId: number, input: { xUserId: string; username: string; displayName?: string | null; accessTokenCiphertext: string; refreshTokenCiphertext?: string | null; scopes: string; tokenExpiresAt?: Date | null }) {
+  const db = mustDb(await getDb());
+  await db.insert(xAccounts).values({ userId, ...input }).onDuplicateKeyUpdate({ set: input });
+  return getXAccount(userId);
+}
+
+export async function deleteXAccount(userId: number) {
+  const db = mustDb(await getDb());
+  await db.delete(xAccounts).where(eq(xAccounts.userId, userId));
   return { success: true as const };
 }
