@@ -26,3 +26,14 @@
 - [x] Add procedure-level tests proving disconnected users cannot schedule or launch campaigns and cannot verify X access.
 - [x] Audit X-triggering procedures versus local-only workspace procedures and document the guard boundary in the server code.
 - [x] Add procedure-level coverage proving a disconnected user cannot launch an active X campaign.
+- [x] Store the supplied Twin3 logo as a deployed web asset and replace the existing generated brand mark.
+- [x] Rebuild the global palette around the logo’s deep forest green and warm ivory while preserving accessible contrast.
+- [x] Apply the refreshed logo, colors, surfaces, buttons, states, and data accents across the landing page, sign-in flow, dashboard, and agent workspaces.
+- [x] Verify the updated visual system at desktop and mobile breakpoints and run the full application test suite.
+- [x] Confirm the Twin3 logo is uploaded as a verified deployed web asset and update the shared brand component to use its returned URL.
+- [x] Audit and update Outreach, Conversation, Reply & Content, Lead Intelligence, and Safety & Controls pages with direct forest-green and warm-ivory brand surfaces.
+- [x] Verify accessible contrast and focus states for the refreshed brand colors across key text, button, card, badge, and table states.
+- [x] Perform an explicit keyboard-focus and contrast audit for the Twin3 palette across public and protected screens, then correct any weak brand states found.
+- [x] Document the verified focus-ring treatment in the global visual system and capture final responsive evidence of the accessibility review.
+- [x] Document a screen-by-screen Twin3 accessibility review covering contrast and global keyboard focus behavior for public and protected interfaces.
+- [x] Capture post-focus-treatment desktop and mobile visual evidence for the landing page, sign-in page, dashboard, and agent workspace.
