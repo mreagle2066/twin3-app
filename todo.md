@@ -37,3 +37,6 @@
 - [x] Document the verified focus-ring treatment in the global visual system and capture final responsive evidence of the accessibility review.
 - [x] Document a screen-by-screen Twin3 accessibility review covering contrast and global keyboard focus behavior for public and protected interfaces.
 - [x] Capture post-focus-treatment desktop and mobile visual evidence for the landing page, sign-in page, dashboard, and agent workspace.
+- [x] Add a restrained, reduced-motion-aware rotating treatment to the shared Twin3 logo.
+- [x] Configure the supplied Twin3 SVG as the browser-tab favicon and application icon metadata.
+- [x] Verify the animated logo remains polished across public and protected surfaces and confirm the browser-tab branding configuration.
