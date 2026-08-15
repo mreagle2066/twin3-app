@@ -1,0 +1,36 @@
+name: X OAuth Integration Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-x-credentials:
+    name: Validate X OAuth credentials
+    runs-on: ubuntu-latest
+    env:
+      X_CLIENT_ID: ${{ secrets.X_CLIENT_ID }}
+      X_CLIENT_SECRET: ${{ secrets.X_CLIENT_SECRET }}
+      RUN_X_OAUTH_CREDENTIAL_TEST: "true"
+    steps:
+      - name: Require integration secrets
+        run: |
+          test -n "$X_CLIENT_ID" || (echo "Missing repository secret X_CLIENT_ID" && exit 1)
+          test -n "$X_CLIENT_SECRET" || (echo "Missing repository secret X_CLIENT_SECRET" && exit 1)
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Validate live X credentials
+        run: pnpm vitest run server/xOAuthCredentials.test.ts

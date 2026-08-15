@@ -45,5 +45,11 @@
 - [x] Verify X sign-in from a clean browser session and document the required X Developer Portal settings.
 - [x] Complete an end-to-end X sign-in verification in a clean browser session, confirm successful callback and session creation, and capture evidence before finalizing the fix.
 - [ ] Confirm and record observable evidence of a completed clean-browser X OAuth callback and authenticated Twin3 session before checkpointing the final fix.
-- [ ] Create a private GitHub repository named twin3-app and export the current Twin3 project files to it.
-- [ ] Verify the remote repository contains the exported project and provide its link.
+- [x] Create a private GitHub repository named twin3-app and export the current Twin3 project files to it.
+- [x] Verify the remote repository contains the exported project and provide its link.
+- [x] Send the verified private GitHub repository link and export confirmation to the user.
+- [x] Change the twin3-app GitHub repository visibility from private to public and verify the resulting public URL.
+- [x] Create a comprehensive README.md covering Twin3’s purpose, feature set, architecture, local setup, environment variables, X OAuth, testing, and deployment.
+- [ ] Validate the README against the current project structure and push it to the public twin3-app repository.
+- [x] Make the external X credential endpoint test resilient to transient TLS resets without weakening credential validation coverage.
+- [x] Add a dedicated GitHub Actions integration-test path that runs the real X credential validation when repository secrets are configured, while retaining stable local test behavior.
