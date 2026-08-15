@@ -14,6 +14,8 @@ describe("X account token protection", () => {
     expect(url).toContain("response_type=code");
     expect(url).toContain("code_challenge_method=S256");
     expect(url).toContain("state=csrf-state");
+    expect(url).toContain("redirect_uri=https%3A%2F%2Ftwin3growth-6acr9qjf.manus.space%2Fapi%2Fx%2Fcallback");
+    expect(url).toContain("scope=users.read+tweet.read+tweet.write+dm.read+dm.write+offline.access");
     expect(url).not.toContain(process.env.X_CLIENT_SECRET ?? "");
   });
 

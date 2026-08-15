@@ -40,6 +40,10 @@
 - [x] Add a restrained, reduced-motion-aware rotating treatment to the shared Twin3 logo.
 - [x] Configure the supplied Twin3 SVG as the browser-tab favicon and application icon metadata.
 - [x] Verify the animated logo remains polished across public and protected surfaces and confirm the browser-tab branding configuration.
-- [ ] Diagnose the X sign-in configuration error occurring in a new browser session, including redirect URI, OAuth client, and callback-state checks.
-- [ ] Correct any confirmed X OAuth configuration or callback handling issue and add regression coverage.
-- [ ] Verify X sign-in from a clean browser session and document the required X Developer Portal settings.
+- [x] Diagnose the X sign-in configuration error occurring in a new browser session, including redirect URI, OAuth client, and callback-state checks.
+- [x] Correct any confirmed X OAuth configuration or callback handling issue and add regression coverage.
+- [x] Verify X sign-in from a clean browser session and document the required X Developer Portal settings.
+- [x] Complete an end-to-end X sign-in verification in a clean browser session, confirm successful callback and session creation, and capture evidence before finalizing the fix.
+- [ ] Confirm and record observable evidence of a completed clean-browser X OAuth callback and authenticated Twin3 session before checkpointing the final fix.
+- [ ] Create a private GitHub repository named twin3-app and export the current Twin3 project files to it.
+- [ ] Verify the remote repository contains the exported project and provide its link.
